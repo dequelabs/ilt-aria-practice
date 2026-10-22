@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARIA, Forms, and Status Messages: Practice Page</title>
+<style>
+  :root { --navy:#193443; --blue:#2E5F7A; --cream:#F6F3ED; --ink:#2A2826; --line:#CFC8BC; --yellow:#F3A326; --rose:#5F2C50; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--cream); color:var(--ink); font:18px/1.5 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
+  header { background:var(--navy); color:#fff; padding:24px 32px; }
+  header h1 { margin:0 0 4px; font-size:28px; }
+  header p { margin:0; color:#C5DDE9; }
+  nav { background:#fff; border-bottom:1px solid var(--line); padding:12px 32px; display:flex; gap:12px; flex-wrap:wrap; }
+  nav a { color:var(--blue); font-weight:600; }
+  main { max-width:1400px; margin:0 auto; padding:24px 32px 64px; }
+  section { background:#fff; border:1px solid var(--line); border-radius:12px; padding:24px; margin:0 0 32px; }
+  section h2 { margin:0 0 4px; color:var(--navy); }
+  .tasks { margin:8px 0 16px; padding-left:24px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:900px) { .grid { grid-template-columns:1fr; } }
+  label.code { display:block; font-weight:700; margin-bottom:6px; }
+  textarea { width:100%; min-height:380px; font:15px/1.5 Consolas, "Courier New", monospace; padding:12px; border:2px solid var(--line); border-radius:8px; background:#0F2330; color:#F6F3ED; resize:vertical; }
+  textarea:focus, button:focus-visible, a:focus-visible { outline:3px solid var(--yellow); outline-offset:2px; }
+  .preview-label { font-weight:700; margin-bottom:6px; }
+  iframe { width:100%; min-height:380px; border:2px solid var(--line); border-radius:8px; background:#fff; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  button { font:inherit; font-weight:600; padding:8px 16px; border-radius:8px; border:2px solid var(--navy); background:var(--navy); color:#fff; cursor:pointer; }
+  button.secondary { background:#fff; color:var(--navy); }
+  .status { min-height:1.5em; margin-top:8px; color:var(--rose); font-weight:600; }
+  .answer { margin-top:16px; }
+  .answer pre { background:#F6F3ED; border:1px solid var(--line); border-radius:8px; padding:12px; overflow:auto; font:14px/1.5 Consolas, "Courier New", monospace; }
+  footer { text-align:center; color:#5C5752; padding:16px; }
+  .hint { margin:0 0 16px; }
+  .hint .actions { margin-top:0; }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  .hint-list { margin:12px 0 0; background:#F6F3ED; border-left:6px solid var(--yellow); border-radius:8px; padding:12px 20px 12px 44px; }
+  .hint-list li { margin:4px 0; }
+  button[aria-disabled="true"] { opacity:.6; cursor:default; }
+  .hint-panel { margin-top:12px; background:#F6F3ED; border-left:6px solid var(--yellow); border-radius:8px; padding:12px 20px; }
+  .hint-panel ul { margin:8px 0; padding-left:22px; }
+  .hint-panel h3, .refs h3 { font-size:18px; margin:12px 0 4px; color:var(--navy); }
+  code { font:15px Consolas, "Courier New", monospace; background:#EAE5DA; padding:1px 5px; border-radius:4px; }
+  a { color:var(--blue); }
+  .refs ul { padding-left:22px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Practice page: ARIA, forms, and status messages</h1>
+  <p>Edit the code on the left. The preview on the right updates as you type. Open DevTools on the preview to check the Accessibility pane. Your code is saved in this browser if you leave the page. To scan with the free Axe DevTools extension, use “Open my code as a full page,” then run Axe in that new tab.</p>
+</header>
+<nav aria-label="Exercises">
+  <a href="#ex1">1. Visit details toggle</a>
+  <a href="#ex2">2. Appointment form</a>
+  <a href="#ex3">3. Toast messages</a>
+  <a href="#refs">Resources</a>
+</nav>
+<main>
+
+<section id="ex1" aria-labelledby="ex1-h">
+  <h2 id="ex1-h">Exercise 1: Fix the visit details toggle</h2>
+  <ol class="tasks">
+    <li>Make it a real button.</li>
+    <li>Add aria-expanded and aria-controls.</li>
+    <li>Keep aria-expanded in sync in JavaScript.</li>
+    <li>Check the Accessibility pane. Paste your button and JS in chat.</li>
+  </ol>
+  <div class="hint">
+    <div class="actions">
+      <button type="button" class="secondary" data-hint="1">Show a hint (1 of 6)</button>
+      <button type="button" class="secondary" aria-expanded="false" aria-controls="refs1">References</button>
+    </div>
+    <ol class="hint-list" id="hints1" aria-label="Hints for exercise 1" hidden></ol>
+    <p class="sr-only" role="status" id="hst1"></p>
+    <div class="hint-panel" id="refs1" hidden>
+      <h3>Read more after class</h3>
+      <ul><li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/">ARIA Authoring Practices Guide: Disclosure pattern</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded">MDN: aria-expanded</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-controls">MDN: aria-controls</a></li></ul>
+    </div>
+  </div>
+  <div class="grid">
+    <div><label class="code" for="code1">Code for exercise 1</label><textarea id="code1" spellcheck="false" data-ex="1"></textarea></div>
+    <div><p class="preview-label" id="pv1-l">Preview for exercise 1</p><iframe id="pv1" title="Preview for exercise 1" sandbox="allow-scripts"></iframe></div>
+  </div>
+  <div class="actions">
+    <button type="button" data-copy="1">Copy my code</button>
+    <button type="button" class="secondary" data-open="1">Open my code as a full page</button>
+    <button type="button" class="secondary" data-reset="1">Reset to starter</button>
+  </div>
+  <p class="status" role="status" id="st1"></p>
+</section>
+
+<section id="ex2" aria-labelledby="ex2-h">
+  <h2 id="ex2-h">Exercise 2: Fix the appointment form</h2>
+  <ol class="tasks">
+    <li>Give every input a visible, tied label.</li>
+    <li>Tie the hint to the email field.</li>
+    <li>Group the radios with their question.</li>
+    <li>Click each label: does focus move? Paste the email field’s computed name and description in chat.</li>
+  </ol>
+  <div class="hint">
+    <div class="actions">
+      <button type="button" class="secondary" data-hint="2">Show a hint (1 of 5)</button>
+      <button type="button" class="secondary" aria-expanded="false" aria-controls="refs2">References</button>
+    </div>
+    <ol class="hint-list" id="hints2" aria-label="Hints for exercise 2" hidden></ol>
+    <p class="sr-only" role="status" id="hst2"></p>
+    <div class="hint-panel" id="refs2" hidden>
+      <h3>Read more after class</h3>
+      <ul><li><a href="https://www.w3.org/WAI/tutorials/forms/labels/">W3C WAI Forms Tutorial: Labeling controls</a></li><li><a href="https://www.w3.org/WAI/tutorials/forms/grouping/">W3C WAI Forms Tutorial: Grouping controls</a></li><li><a href="https://www.w3.org/WAI/tutorials/forms/instructions/">W3C WAI Forms Tutorial: Form instructions</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-describedby">MDN: aria-describedby</a></li></ul>
+    </div>
+  </div>
+  <div class="grid">
+    <div><label class="code" for="code2">Code for exercise 2</label><textarea id="code2" spellcheck="false" data-ex="2"></textarea></div>
+    <div><p class="preview-label">Preview for exercise 2</p><iframe id="pv2" title="Preview for exercise 2" sandbox="allow-scripts"></iframe></div>
+  </div>
+  <div class="actions">
+    <button type="button" data-copy="2">Copy my code</button>
+    <button type="button" class="secondary" data-open="2">Open my code as a full page</button>
+    <button type="button" class="secondary" data-reset="2">Reset to starter</button>
+  </div>
+  <p class="status" role="status" id="st2"></p>
+</section>
+
+<section id="ex3" aria-labelledby="ex3-h">
+  <h2 id="ex3-h">Exercise 3: Fix the toast, as a team</h2>
+  <ol class="tasks">
+    <li>Developers: “File saved” polite, “Upload failed” urgent.</li>
+    <li>Designers: what stays on screen, and for how long?</li>
+    <li>QA: write the NVDA test steps.</li>
+    <li>Everyone: focus never moves.</li>
+  </ol>
+  <div class="hint">
+    <div class="actions">
+      <button type="button" class="secondary" data-hint="3">Show a hint (1 of 5)</button>
+      <button type="button" class="secondary" aria-expanded="false" aria-controls="refs3">References</button>
+    </div>
+    <ol class="hint-list" id="hints3" aria-label="Hints for exercise 3" hidden></ol>
+    <p class="sr-only" role="status" id="hst3"></p>
+    <div class="hint-panel" id="refs3" hidden>
+      <h3>Read more after class</h3>
+      <ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/status_role">MDN: ARIA status role</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/alert_role">MDN: ARIA alert role</a></li><li><a href="https://www.w3.org/WAI/WCAG22/Understanding/status-messages.html">Understanding WCAG 2.2: 4.1.3 Status Messages</a></li><li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/alert/">ARIA Authoring Practices Guide: Alert pattern</a></li></ul>
+    </div>
+  </div>
+  <div class="grid">
+    <div><label class="code" for="code3">Code for exercise 3</label><textarea id="code3" spellcheck="false" data-ex="3"></textarea></div>
+    <div><p class="preview-label">Preview for exercise 3</p><iframe id="pv3" title="Preview for exercise 3" sandbox="allow-scripts"></iframe></div>
+  </div>
+  <div class="actions">
+    <button type="button" data-copy="3">Copy my code</button>
+    <button type="button" class="secondary" data-open="3">Open my code as a full page</button>
+    <button type="button" class="secondary" data-reset="3">Reset to starter</button>
+  </div>
+  <p class="status" role="status" id="st3"></p>
+</section>
+
+<section id="refs" class="refs" aria-labelledby="refs-h">
+  <h2 id="refs-h">Resources</h2>
+  <ul>
+    <li><a href="https://www.w3.org/WAI/ARIA/apg/">ARIA Authoring Practices Guide</a>: patterns, keyboard rules, and working examples</li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA">MDN ARIA reference</a>: every role and attribute</li>
+    <li><a href="https://www.powermapper.com/tests/screen-readers/aria/">PowerMapper screen reader support tests for ARIA</a></li>
+    <li><a href="https://www.deque.com/axe/devtools/">Free Axe DevTools browser extension</a></li>
+    <li><a href="https://dequeuniversity.com/">Deque University</a></li>
+  </ul>
+</section>
+
+</main>
+<footer>Deque Systems · Building for Accessibility, Session 2. Tip: the Tab key moves focus out of the code box. That is on purpose, so nobody gets trapped.</footer>
+
+<script>
+const STARTERS = {
+1: `<div class="toggle" onclick="toggle()">
+  Show visit details ▾
+</div>
+<div id="details" style="display:none">
+  Dr. Lee · Room 4B · Bring your insurance card
+</div>
+<script>
+function toggle() {
+  const d = document.getElementById('details');
+  d.style.display = d.style.display === 'none' ? 'block' : 'none';
+}
+<\/script>`,
+2: `<form>
+  <input type="email" placeholder="Email address">
+  <p>We send your confirmation here.</p>
+  <p>Visit type</p>
+  <input type="radio" name="visit"> In person
+  <input type="radio" name="visit"> Video
+  <button>Book</button>
+</form>`,
+3: `<button onclick="showToast('File saved')">Save</button>
+<button onclick="showToast('Upload failed')">Upload</button>
+<script>
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.append(t);
+  setTimeout(() => t.remove(), 5000);
+}
+<\/script>`
+};
+const BASE = '<style>body{font:18px/1.5 system-ui,Arial,sans-serif;margin:16px} .toast{background:#193443;color:#fff;padding:8px 12px;border-radius:6px;margin-top:8px}</style>';
+const KEY = n => 'aria-practice-ex' + n;
+function load(n){ try { return localStorage.getItem(KEY(n)); } catch(e){ return null; } }
+function save(n,v){ try { localStorage.setItem(KEY(n), v); } catch(e){} }
+function render(n){
+  const v = document.getElementById('code'+n).value;
+  document.getElementById('pv'+n).srcdoc = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Preview</title>' + BASE + '</head><body>' + v + '</body></html>';
+}
+const timers = {};
+[1,2,3].forEach(n => {
+  const ta = document.getElementById('code'+n);
+  ta.value = load(n) ?? STARTERS[n];
+  render(n);
+  ta.addEventListener('input', () => {
+    save(n, ta.value);
+    clearTimeout(timers[n]);
+    timers[n] = setTimeout(() => render(n), 400);
+  });
+});
+document.querySelectorAll('[data-reset]').forEach(b => b.addEventListener('click', () => {
+  const n = b.dataset.reset;
+  document.getElementById('code'+n).value = STARTERS[n];
+  save(n, STARTERS[n]); render(n);
+  document.getElementById('st'+n).textContent = 'Reset to the starter code.';
+}));
+document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+  const n = b.dataset.copy, st = document.getElementById('st'+n);
+  const ta = document.getElementById('code'+n);
+  try { await navigator.clipboard.writeText(ta.value); st.textContent = 'Copied. Paste it in chat.'; }
+  catch(e) { ta.select(); st.textContent = 'Copy blocked by the browser. Your code is selected: press Ctrl+C.'; }
+}));
+const HINTS = {"1": ["Use <code>&lt;button type=\"button\"&gt;</code>. Focus, Enter, and Space come free.", "Add <code>aria-expanded=\"false\"</code> to the button. Set it to <code>\"true\"</code> when the panel opens and back to <code>\"false\"</code> when it closes.", "Add <code>aria-controls=\"details\"</code>. It points to the id of the panel the button opens.", "Hide the panel with the <code>hidden</code> attribute, and toggle it in the same click handler.", "Hide the arrow from screen readers: <code>&lt;span aria-hidden=\"true\"&gt;▾&lt;/span&gt;</code>", "Focus stays on the button. Do not move it into the panel."], "2": ["<code>&lt;label for=\"email\"&gt;</code> must match <code>&lt;input id=\"email\"&gt;</code>. Click the label: focus should jump to the field.", "Give the hint an id, then add <code>aria-describedby=\"that-id\"</code> to the input.", "Wrap the radios in <code>&lt;fieldset&gt;</code> and put the question in <code>&lt;legend&gt;</code>.", "Wrap each radio and its text in its own <code>&lt;label&gt;</code>.", "Bonus: add <code>autocomplete=\"email\"</code> to the email field."], "3": ["Put two empty containers on the page at load: <code>&lt;div role=\"status\"&gt;&lt;/div&gt;</code> and <code>&lt;div role=\"alert\"&gt;&lt;/div&gt;</code>.", "In <code>showToast</code>, change the text of the right container. Do not create a new element each time.", "<code>role=\"status\"</code> waits for the user to pause. Use it for “File saved.”", "<code>role=\"alert\"</code> interrupts right away. Use it for “Upload failed.”", "Never move focus to the toast. Keep errors on screen until the user closes them."]};
+document.querySelectorAll('[data-hint]').forEach(b => {
+  let shown = 0;
+  b.addEventListener('click', () => {
+    const n = b.dataset.hint, list = HINTS[n];
+    if (shown >= list.length) return;
+    const ol = document.getElementById('hints'+n);
+    const li = document.createElement('li'); li.innerHTML = list[shown];
+    ol.append(li); ol.hidden = false; shown++;
+    document.getElementById('hst'+n).textContent = 'Hint ' + shown + ' of ' + list.length + ': ' + li.textContent;
+    if (shown < list.length) { b.textContent = 'Show next hint (' + (shown+1) + ' of ' + list.length + ')'; }
+    else { b.textContent = 'All ' + list.length + ' hints shown'; b.setAttribute('aria-disabled','true'); }
+  });
+});
+document.querySelectorAll('[aria-controls^="refs"]').forEach(b => b.addEventListener('click', () => {
+  const open = b.getAttribute('aria-expanded') === 'true';
+  b.setAttribute('aria-expanded', String(!open));
+  document.getElementById(b.getAttribute('aria-controls')).hidden = open;
+}));
+function fullPage(n){
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Exercise ' + n + ': my code</title>' + BASE + '</head><body><main><h1>Exercise ' + n + '</h1>' + document.getElementById('code'+n).value + '</main></body></html>';
+}
+document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => {
+  const n = b.dataset.open, st = document.getElementById('st'+n);
+  const url = URL.createObjectURL(new Blob([fullPage(n)], {type:'text/html'}));
+  const w = window.open(url, '_blank');
+  st.textContent = w ? 'Opened in a new tab. Run Axe DevTools there.' : 'Your browser blocked the new tab. Allow pop-ups for this page and try again.';
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}));
+</script>
+</body>
+</html>
