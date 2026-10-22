@@ -2,7 +2,7 @@
 
 Hands-on practice page for Deque's "Building for Accessibility" Session 2 (ARIA, forms, and status messages).
 
-Live page: https://mdharshbarger.github.io/ilt-aria-practice/
+Live page: [https://mdharshbarger.github.io/ilt-aria-practice/](https://dequelabs.github.io/ilt-aria-practice/)
 
 ## What's here
 
